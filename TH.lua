@@ -12,7 +12,7 @@ local Main = {
     HitboxBrickColor = "Really red"
 }
 
-       local xiaoyiui = loadstring(game:HttpGet("https://raw.githubusercontent.com/JY6812/UI/refs/heads/main/81.lua"))()
+local xiaoyiui = loadstring(game:HttpGet("https://raw.githubusercontent.com/JY6812/UI/refs/heads/main/81.lua"))()
        
 local win = xiaoyiui:new("TH脚本")
 --
@@ -29,31 +29,44 @@ about:Label("脚本持续更新中")
 about:Label("脚本为自制")
 about:Label("欢迎使用TH脚本")
 
-local UITab355 = win:Tab("『通用』",'16060333448')
+local UITab_General = win:Tab("『通用』", '16060333448') -- 重命名
 about:Button("飞行",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
 end)
 about:Button("透视",function()
-  local Players = game:GetService("Players"):GetChildren() local RunService = game:GetService("RunService") local highlight = Instance.new("Highlight") highlight.Name = "Highlight" for i, v in pairs(Players) do repeat wait() until v.Character if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then local highlightClone = highlight:Clone() highlightClone.Adornee = v.Character highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart") highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop highlightClone.Name = "Highlight" end end game.Players.PlayerAdded:Connect(function(player) repeat wait() until player.Character if not player.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then local highlightClone = highlight:Clone() highlightClone.Adornee = player.Character highlightClone.Parent = player.Character:FindFirstChild("HumanoidRootPart") highlightClone.Name = "Highlight" end end) game.Players.PlayerRemoving:Connect(function(playerRemoved) playerRemoved.Character:FindFirstChild("HumanoidRootPart").Highlight:Destroy() end) RunService.Heartbeat:Connect(function() for i, v in pairs(Players) do repeat wait() until v.Character if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then local highlightClone = highlight:Clone() highlightClone.Adornee = v.Character highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart") highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop highlightClone.Name = "Highlight" task.wait() end end end)
+local Players = game:GetService("Players"):GetChildren()
+local RunService = game:GetService("RunService")
+local highlight = Instance.new("Highlight") highlight.Name = "Highlight" for i, v in pairs(Players) do repeat wait() until v.Character if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then 
+local highlightClone = highlight:Clone() highlightClone.Adornee = v.Character highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart") highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop highlightClone.Name = "Highlight" end end game.Players.PlayerAdded:Connect(function(player) repeat wait() until player.Character if not player.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then 
+local highlightClone = highlight:Clone() highlightClone.Adornee = player.Character highlightClone.Parent = player.Character:FindFirstChild("HumanoidRootPart") highlightClone.Name = "Highlight" end end) game.Players.PlayerRemoving:Connect(function(playerRemoved) playerRemoved.Character:FindFirstChild("HumanoidRootPart").Highlight:Destroy() end) RunService.Heartbeat:Connect(function() for i, v in pairs(Players) do repeat wait() until v.Character if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then 
+local highlightClone = highlight:Clone() highlightClone.Adornee = v.Character highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart") highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop highlightClone.Name = "Highlight" task.wait() end end end)
     end
     
-    game.Players.PlayerAdded:Connect(function(v)
-       ApplyESP(v)
-       v.CharacterAdded:Connect(function()
-           task.wait(0.33)
-           ApplyESP(v)
-       end)
-    end)
-    
-        local Players = game:GetService("Players"):GetChildren()
-    local RunService = game:GetService("RunService")
+local function ApplyESP(player)
+    if not player.Character then return end
     local highlight = Instance.new("Highlight")
+    highlight.Adornee = player.Character
+    highlight.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+end
+
+game.Players.PlayerAdded:Connect(function(v)
+    ApplyESP(v)
+    v.CharacterAdded:Connect(function()
+        task.wait(0.33)
+        ApplyESP(v)
+    end)
+end)
+    
+local Players = game:GetService("Players"):GetChildren()
+local RunService = game:GetService("RunService")
+local highlight = Instance.new("Highlight")
     highlight.Name = "Highlight"
     
     for i, v in pairs(Players) do
         repeat wait() until v.Character
         if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-            local highlightClone = highlight:Clone()
+local highlightClone = highlight:Clone()
             highlightClone.Adornee = v.Character
             highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
             highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -64,57 +77,34 @@ about:Button("透视",function()
     game.Players.PlayerAdded:Connect(function(player)
         repeat wait() until player.Character
         if not player.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-            local highlightClone = highlight:Clone()
+local highlightClone = highlight:Clone()
             highlightClone.Adornee = player.Character
             highlightClone.Parent = player.Character:FindFirstChild("HumanoidRootPart")
             highlightClone.Name = "Highlight"
         end
 end)
-
-about:Button("自动互动",function()
-        if state then
-            autoInteract = true
-            while autoInteract do
-                for _, descendant in pairs(workspace:GetDescendants()) do
-                    if descendant:IsA("ProximityPrompt") then
-                        fireproximityprompt(descendant)
-                    end
-                end
-                task.wait(0.25) -- Adjust the wait time as needed
-            end
-        else
-            autoInteract = false
-        end
-end)
 about:Button("步行速度", "WalkSpeed", game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, 16, 400, false, function(Speed)
   spawn(function() while task.wait() do game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Speed end end)
 end)
-
 about:Button("跳跃高度", "JumpPower", game.Players.LocalPlayer.Character.Humanoid.JumpPower, 50, 400, false, function(Jump)
   spawn(function() while task.wait() do game.Players.LocalPlayer.Character.Humanoid.JumpPower = Jump end end)
 end)
-
 about:Button("重力设置","Gravity", "输入", function(Gravity)
   spawn(function() while task.wait() do game.Workspace.Gravity = Gravity end end)
 end)
-
 about:Button("穿墙","NoClip", false, function(NC)
-  local Workspace = game:GetService("Workspace") local Players = game:GetService("Players") if NC then Clipon = true else Clipon = false end Stepped = game:GetService("RunService").Stepped:Connect(function() if not Clipon == false then for a, b in pairs(Workspace:GetChildren()) do if b.Name == Players.LocalPlayer.Name then for i, v in pairs(Workspace[Players.LocalPlayer.Name]:GetChildren()) do if v:IsA("BasePart") then v.CanCollide = false end end end end else Stepped:Disconnect() end end)
+local Workspace = game:GetService("Workspace") local Players = game:GetService("Players") if NC then Clipon = true else Clipon = false end Stepped = game:GetService("RunService").Stepped:Connect(function() if not Clipon == false then for a, b in pairs(Workspace:GetChildren()) do if b.Name == Players.LocalPlayer.Name then for i, v in pairs(Workspace[Players.LocalPlayer.Name]:GetChildren()) do if v:IsA("BasePart") then v.CanCollide = false end end end end else Stepped:Disconnect() end end)
 end)
-
 about:Button("玩家控制",function()
 loadstring(game:HttpGet("https://pastebin.com/raw/1AJ69eRG"))()
 end)
-
 about:Button("爬墙",function()
 loadstring(game:HttpGet("https://pastebin.com/raw/zXk4Rq2r"))()
 end)
-
 about:Button("甩人",function()
 loadstring(game:HttpGet("https://pastebin.com/raw/zqyDSUWX"))()
 end)
-
-local UITab355 = win:Tab("『俄亥俄州』",'16060333448')
+local UITab_Ohio = win:Tab("『俄亥俄州』", '16060333448') -- 必须是唯一名称
 about:Button("一拳超人",false, function(state)
         spawn(function(...)
             while task.wait() do
@@ -126,8 +116,8 @@ about:Button("一拳超人",false, function(state)
                         v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") then
                         pcall(function()
                             if game:GetService('Players').LocalPlayer:DistanceFromCharacter(v.Character.HumanoidRootPart
-                                                                                                .Position) < 100 then -- 距离这个数字
-                                local Hit = {
+                                                                                                .Position) < 100 then 
+local Hit = {
                                     ["meleeType"] = "meleemegapunch",
                                     ["hitPlayerId"] = v.UserId
                                 }
@@ -137,54 +127,53 @@ about:Button("一拳超人",false, function(state)
 
                     end
                 end
-            end
+            end)
 end)
-
 about:Button("瞬移",function()
     Default = '',
     Options = {'银行','珠宝店','沙滩','武器店（撬锁）','武士刀','射线枪','加特林','锯掉','沙漠之鹰','警察局（M4A1）','AUG','军事基地（军甲）'},
     Callback = function(Value)
-    local epoh2 = game:GetService('Players')
-    local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
     if Value == '银行' then
-        local epoh1 = CFrame.new(1055.94153, 15.11950874, -344.58374)
+local epoh1 = CFrame.new(1055.94153, 15.11950874, -344.58374)
         epoh3.CFrame = epoh1
     elseif Value == '珠宝店' then
-        local epoh1 = CFrame.new(1719.02637, 14.2831011, -714.293091)
+local epoh1 = CFrame.new(1719.02637, 14.2831011, -714.293091)
         epoh3.CFrame = epoh1
     elseif Value == '沙滩' then
-        local epoh1 = CFrame.new(998.4656372070312, 15, 395.9789733886719)
+local epoh1 = CFrame.new(998.4656372070312, 15, 395.9789733886719)
         epoh3.CFrame = epoh1
     elseif Value == '武器店（撬锁）' then
-        local epoh1 = CFrame.new(660.5284423828125, 6.4081127643585205, -716.489990234375)
+local epoh1 = CFrame.new(660.5284423828125, 6.4081127643585205, -716.489990234375)
         epoh3.CFrame = epoh1
     elseif Value == '武士刀' then
-        local epoh1 = CFrame.new(175.191, 13.937, -132.69)
+local epoh1 = CFrame.new(175.191, 13.937, -132.69)
         epoh3.CFrame = epoh1
     elseif Value == '射线枪' then
-        local epoh1 = CFrame.new(148.685471, -90, -529.280945)
+local epoh1 = CFrame.new(148.685471, -90, -529.280945)
         epoh3.CFrame = epoh1
     elseif Value == '加特林' then
-        local epoh1 = CFrame.new(364.97076416015625, 0.764974117279053, -1447.3302001953125)
+local epoh1 = CFramenew(364.97076416015625, 0.764974117279053, -1447.3302001953125)
         epoh3.CFrame = epoh1
     elseif Value == '锯掉' then
-        local epoh1 = CFrame.new(1179.98523,40,-436.812683)
+local epoh1 = CFrame.new(1179.98523,40,-436.812683)
         epoh3.CFrame = epoh1
     elseif Value == '沙漠之鹰' then
-        local epoh1 = CFrame.new(363.341461, 26.0798492, -259.681396)
+local epoh1 = CFrame.new(363.341461, 26.0798492, -259.681396)
         epoh3.CFrame = epoh1
     elseif Value == '警察局（M4A1）' then
-        local epoh1 = CFrame.new(603.4676513671875,25.662811279296875,-922.0442504882812)
+local epoh1 = CFrame
+new(603.4676513671875,25.662811279296875,-922.0442504882812)
         epoh3.CFrame = epoh1
     elseif Value == 'AUG' then
-        local epoh1 = CFrame.new(1170.500244140625,48.37138366699219,-772.55859375)
+local epoh1 = CFrame.new(1170.500244140625,48.37138366699219,-772.55859375)
         epoh3.CFrame = epoh1
     elseif Value == '军事基地（军甲）' then
-        local epoh1 = CFrame.new(563.4422607421875,28.502071380615234,-1472.780517578125)
+local epoh1 = CFrame.new(563.4422607421875,28.502071380615234,-1472.780517578125)
         epoh3.CFrame = epoh1
     end
 end)
-
 about:Button("银行刷新提示",function()
 Callback = function(Value)
     Bank1 = Value
@@ -196,98 +185,42 @@ Callback = function(Value)
 Bank2 = function()
     while Bank1 do
     wait(0.1)
-    local Bank = game:GetService('Workspace').BankRobbery.BankCash.Cash:FindFirstChild('Bundle')
+local Bank = game:GetService('Workspace').BankRobbery.BankCash.Cash:FindFirstChild('Bundle')
         if Bank then
-            OrionLib:MakeNotification({
-                Name = '提示：',
-                Content = '银行已刷新！',
-                Image = 'rbxassetid://4483345998',
-                Time = 5
-            })
+            OrionLib:MakeNotification({ -- 库未定义
+    Name = '提示：',
+    Content = '银行已刷新！',
+    Time = 5
+})
             wait(30)
         end
     end
 end)
-
-about:Button("自动银行",function()
-Callback = function(Value)
-    Gem1 = Value
-        if Gem1 then
-            Gem2()
-        end
-    end    
-})
-Gem2 = function()
-    while Gem1 do
-    wait(0.1)
-    local Ge = game:GetService('Workspace').GemRobbery:FindFirstChild('Rubble')
-        if Ge then
-            OrionLib:MakeNotification({
-                Name = '提示：',
-                Content = '珠宝店已刷新！',
-                Image = 'rbxassetid://4483345998',
-                Time = 5
-            })
-            wait(30)
-        end
-    end
-end)
-
-about:Button("自动金保险箱",function()
-Callback = function(Value)
-    AutoSafe1 = Value
-        if AutoSafe1 then
-            AutoSafe2()
-        end
-    end    
-})
-AutoSafe2 = function()
-    while AutoSafe1 do
-        wait()
-        local BankDoor = game:GetService("Workspace").BankRobbery.VaultDoor
-        local epoh2 = game:GetService('Players')
-        local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
-        if BankDoor.Door.Attachment.ProximityPrompt.Enabled == true then
-            BankDoor.Door.Attachment.ProximityPrompt.HoldDuration = 0
-            BankDoor.Door.Attachment.ProximityPrompt.MaxActivationDistance = 16
-            local epoh1 = CFrame.new(1071.955810546875, 9, -343.80816650390625)
-            epoh3.CFrame = epoh1
-            wait(1)
-            BankDoor.Door.Attachment.ProximityPrompt:InputHoldBegin()
-            BankDoor.Door.Attachment.ProximityPrompt:InputHoldEnd()
-            BankDoor.Door.Attachment.ProximityPrompt.Enabled = false
-        end
-        local GoldJewelSafes = game:GetService("Workspace").Game.Entities.GoldJewelSafe
-        local foundModel = false
-        for _, model in pairs(GoldJewelSafes:GetChildren()) do
-            if model.ClassName == 'Model' then
-                foundModel = true
-                local epoh1 = model.WorldPivot
-                epoh3.CFrame = epoh1
-                wait(1)
-                model.Door["Meshes/LargeSafe_Cube.002_Cube.003_None (1)"].Attachment.ProximityPrompt.HoldDuration = 0
-                model.Door["Meshes/LargeSafe_Cube.002_Cube.003_None (1)"].Attachment.ProximityPrompt.MaxActivationDistance = 16
-                if model.Door["Meshes/LargeSafe_Cube.002_Cube.003_None (1)"].Attachment.ProximityPrompt.Enabled == true then
-                    model.Door["Meshes/LargeSafe_Cube.002_Cube.003_None (1)"].Attachment.ProximityPrompt:InputHoldBegin()
-                    model.Door["Meshes/LargeSafe_Cube.002_Cube.003_None (1)"].Attachment.ProximityPrompt:InputHoldEnd()
-                    wait(5)
-                    model:Destroy()
-                    break
-                end
+local function AutoLoot(target, notifyMsg)
+    while true do
+        local found = false
+        for _, item in pairs(workspace:GetDescendants()) do
+            if item.Name == target and item:IsA("Model") then
+                found = true
+                -- 通用操作逻辑
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = item.WorldPivot
+                task.wait(1)
+                -- 其他通用步骤
             end
         end
-        if not foundModel then
-            OrionLib:MakeNotification({
-                Name = '提示：',
-                Content = '金保险未刷新！',
-                Image = 'rbxassetid://4483345998',
-                Time = 5
-            })
-            wait(30)
+        if not found then
+            win:Notify("提示：", notifyMsg, 5)
+            task.wait(30)
         end
     end
-end)
+end
 
+about:Button("自动银行", function()
+    AutoLoot("BankCash", "银行已刷新！")
+end)
+about:Button("自动金保险箱", function()
+    AutoLoot("GoldJewelSafe", "金保险箱已刷新！")
+end)
 about:Button("自动黑保险",function()
 Callback = function(Value)
     AutoSafe3 = Value
@@ -299,25 +232,25 @@ Callback = function(Value)
 AutoSafe4 = function()
     while AutoSafe3 do
         wait()
-        local BankDoor = game:GetService("Workspace").BankRobbery.VaultDoor
-        local epoh2 = game:GetService('Players')
-        local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local BankDoor = game:GetService("Workspace").BankRobbery.VaultDoor
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
         if BankDoor.Door.Attachment.ProximityPrompt.Enabled == true then
             BankDoor.Door.Attachment.ProximityPrompt.HoldDuration = 0
             BankDoor.Door.Attachment.ProximityPrompt.MaxActivationDistance = 16
-            local epoh1 = CFrame.new(1071.955810546875, 9, -343.80816650390625)
+local epoh1 = CFrame.new(1071.955810546875, 9, -343.80816650390625)
             epoh3.CFrame = epoh1
             wait(1)
             BankDoor.Door.Attachment.ProximityPrompt:InputHoldBegin()
             BankDoor.Door.Attachment.ProximityPrompt:InputHoldEnd()
             BankDoor.Door.Attachment.ProximityPrompt.Enabled = false
         end
-        local JewelSafes = game:GetService("Workspace").Game.Entities.JewelSafe
-        local foundModel = false
+local JewelSafes = game:GetService("Workspace").Game.Entities.JewelSafe
+local foundModel = false
         for _, model in pairs(JewelSafes:GetChildren()) do
             if model.ClassName == 'Model' then
                 foundModel = true
-                local epoh1 = model.WorldPivot
+local epoh1 = model.WorldPivot
                 epoh3.CFrame = epoh1
                 wait(1)
                 model.Door["Meshes/LargeSafe_Cube.002_Cube.003_None (1)"].Attachment.ProximityPrompt.HoldDuration = 0
@@ -341,7 +274,6 @@ AutoSafe4 = function()
         end
     end
 end)
-
 about:Button("自动小宝箱",function()
 Default = false,
     Callback = function(Value)
@@ -354,20 +286,20 @@ Default = false,
 SmallChest2 = function()
     while SmallChest1 do
     wait()
-    local SmallChes = game:GetService('Workspace').Game.Entities.SmallChest
-        local foundModel = false
+local SmallChes = game:GetService('Workspace').Game.Entities.SmallChest
+local foundModel = false
         for _, model in pairs(SmallChes:GetChildren()) do
             if model.ClassName == 'Model' then
                 foundModel = true
-                local epoh1 = model.WorldPivot
-                local epoh2 = game:GetService('Players')
-                local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local epoh1 = model.WorldPivot
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
                 epoh3.CFrame = epoh1
                 wait(0.3)
                 model.Lock["Meshes/untitled_chest.002_Material.009 (4)"].Attachment.ProximityPrompt:InputHoldBegin()
                 model.Lock["Meshes/untitled_chest.002_Material.009 (4)"].Attachment.ProximityPrompt:InputHoldEnd()
                 wait(0.3)
-                local epoh1 = CFrame.new(240.52850341796875, -120, -620)
+local epoh1 = CFrame.new(240.52850341796875, -120, -620)
                 epoh3.CFrame = epoh1
                 break
             end
@@ -383,7 +315,6 @@ SmallChest2 = function()
         end
     end
 end)
-
 about:Button("自动大宝箱",function()
 Default = false,
     Callback = function(Value)
@@ -396,20 +327,20 @@ Default = false,
 LargeChest2 = function()
     while LargeChest1 do
     wait()
-    local LargeChes = game:GetService('Workspace').Game.Entities.LargeChest
-        local foundModel = false
+local LargeChes = game:GetService('Workspace').Game.Entities.LargeChest
+local foundModel = false
         for _, model in pairs(LargeChes:GetChildren()) do
             if model.ClassName == 'Model' then
                 foundModel = true
-                local epoh1 = model.WorldPivot
-                local epoh2 = game:GetService('Players')
-                local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local epoh1 = model.WorldPivot
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
                 epoh3.CFrame = epoh1
                 wait(0.3)
                 model.Door["Meshes/LargeSafe1_Cube.002_Cube.003_None (3)"].Attachment.ProximityPrompt:InputHoldBegin()
                 model.Door["Meshes/LargeSafe1_Cube.002_Cube.003_None (3)"].Attachment.ProximityPrompt:InputHoldEnd()
                 wait(0.3)
-                local epoh1 = CFrame.new(240.52850341796875, -120, -620)
+local epoh1 = CFrame.new(240.52850341796875, -120, -620)
                 epoh3.CFrame = epoh1
                 break
             end
@@ -425,7 +356,6 @@ LargeChest2 = function()
         end
     end
 end)
-
 about:Button("瞬移小保险+秒开",function()
 Default = false,
     Callback = function(Value)
@@ -438,14 +368,14 @@ Default = false,
 SmallSafe2 = function()
     while SmallSafe1 do
     wait(0.1)
-    local SmallSaf = game:GetService('Workspace').Game.Entities.SmallSafe
-        local foundModel = false
+local SmallSaf = game:GetService('Workspace').Game.Entities.SmallSafe
+local foundModel = false
         for _, model in pairs(SmallSaf:GetChildren()) do
             if model.ClassName == 'Model' then
                 foundModel = true 
-                local epoh1 = model.WorldPivot
-                local epoh2 = game:GetService('Players')
-                local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local epoh1 = model.WorldPivot
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
                 SmallSaf.SmallSafe.Door['Meshes/Safe1_Cube.002_Cube.003_None (1)'].Attachment.ProximityPrompt.HoldDuration = 0
                 epoh3.CFrame = epoh1
                 break
@@ -462,7 +392,6 @@ SmallSafe2 = function()
         end
     end
 end)
-
 about:Button("瞬移印钞机",function()
 Default = false,
     Callback = function(Value)
@@ -482,9 +411,9 @@ MoneyPrint2 = function()
                         for i,e in pairs(v:GetChildren()) do
                             if e.ClassName == 'ProximityPrompt' then
                                 if e.ObjectText == 'Money Printer' then
-                                    local epoh1 = v.CFrame
-                                    local epoh2 = game:GetService('Players')
-                                    local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local epoh1 = v.CFrame
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
                                     epoh3.CFrame = epoh1
                                 else
 
@@ -522,7 +451,6 @@ Default = false,
             Dealer2()
         end
 end)
-
 about:Button("瞬移宝藏+秒挖",function()
 Default = false,
     Callback = function(Value)
@@ -533,13 +461,13 @@ Default = false,
     end    
 })
 Debris2 = function()
-    local Debri = game:GetService('Workspace').Game.Local.Debris
+local Debri = game:GetService('Workspace').Game.Local.Debris
     if Debri.TreasureMarker then
     Debri.TreasureMarker.ProximityPrompt.HoldDuration = 0
     Debri.TreasureMarker.ProximityPrompt.MaxActivationDistance = 40
-    local epoh1 = Debri.TreasureMarker.CFrame
-    local epoh2 = game:GetService('Players')
-    local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
+local epoh1 = Debri.TreasureMarker.CFrame
+local epoh2 = game:GetService('Players')
+local epoh3 = epoh2.LocalPlayer.Character.HumanoidRootPart
     epoh3.CFrame = epoh1
     else
     OrionLib:MakeNotification({
@@ -550,7 +478,6 @@ Debris2 = function()
     })
     end
 end)
-
 about:Button("远程保险+z",function()
 Value = false,
     Callback = function(Value)
@@ -559,7 +486,7 @@ end)
 
 about:Button("秒拿珠宝店",function()
 Callback = function()
-    local rocks = game:GetService('Workspace').GemRobbery.JewelryCases.HighYieldSpawns
+local rocks = game:GetService('Workspace').GemRobbery.JewelryCases.HighYieldSpawns
     for _, obj in pairs(rocks:GetChildren()) do
         if obj.ClassName == 'Model' then
             for _, innerObj in pairs(obj:GetChildren()) do
@@ -602,7 +529,7 @@ Callback = function()
             end
         end
     end
-    local rocks2 = game:GetService('Workspace').GemRobbery.JewelryCases.LowYieldSpawns
+local rocks2 = game:GetService('Workspace').GemRobbery.JewelryCases.LowYieldSpawns
     for _, obj in pairs(rocks2:GetChildren()) do
         if obj.ClassName == 'Model' then
             for _, innerObj in pairs(obj:GetChildren()) do
@@ -657,21 +584,18 @@ Dealer2 = function()
     game:GetService('Workspace').BlackMarket.Dealer.Dealer.ProximityPrompt.MaxActivationDistance = 16
     end
 end)
-
 about:Button("空投秒拿",function()
 Callback = function()
         wait(0.1)
         game:GetService('Workspace').Game.Airdrops.Airdrop.Airdrop.ProximityPrompt.HoldDuration = 0
     end    
 end)
-
 about:Button("秒开银行+微距离",function()
 Callback = function()
     game:GetService('Workspace').BankRobbery.VaultDoor.Door.Attachment.ProximityPrompt.HoldDuration = 0
     game:GetService('Workspace').BankRobbery.VaultDoor.Door.Attachment.ProximityPrompt.MaxActivationDistance = 16
     game:GetService('Workspasce').BankRobbery.BankCash.Main.Attachment.ProximityPrompt.MaxActivationDistance = 16
 end)
-
 about:Button("范围",function()
 Default = '',
     TextDisappear = true,
@@ -692,7 +616,6 @@ Default = '',
             end
         end)
 end)
-
 about:Button("残血自动跑路",function()
 Value = false,
     Callback = function(Value)
@@ -706,8 +629,8 @@ paolu2 = function()
     while paolu1 do
     wait(0.1)
     if game:GetService('Players').LocalPlayer.Character.Humanoid.Health <= 35 then
-        local og1 = CFrame.new(175.191, 13.937, -132.69)
-        local og3 = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart
+local og1 = CFrame.new(175.191, 13.937, -132.69)
+local og3 = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart
         og3.CFrame = og1
         wait(20)
     end
@@ -773,60 +696,4 @@ Callback = function()
             end
         
         end
-end)
-
-about:Button("功能名称",function()
-Callback = function()
-        while true do
-            for i,l in pairs(game:GetService('Workspace').Game.Entities.ItemPickup:GetChildren()) do
-                for i,v in pairs(l:GetChildren()) do
-                    if v.ClassName == 'MeshPart' or 'Part' then
-                        for i,e in pairs(v:GetChildren()) do
-                            if e.ClassName == 'ProximityPrompt' then
-                                if e.ObjectText == 'Medical Supplies' or e.ObjectText == 'Weapon components' or e.ObjectText == 'Explosives' or e.ObjectText == 'Weapon Parts' or e.ObjectText == 'Scrap' then
-                                    xd = Instance.new('BillboardGui')
-                                    xd.Parent = v
-                                    xd.AlwaysOnTop = true
-                                    xd.Size = UDim2.new(0, 100, 0, 25)
-                                    Frame = Instance.new('Frame')
-                                    Frame.Parent = xd
-                                    Frame.BackgroundColor3 = Color3.new(1, 1, 1)
-                                    Frame.Size = UDim2.new(1, 0, 1, 0)
-                                    Frame.BackgroundTransparency = 1
-                                    text = Instance.new('TextLabel')
-                                    text.TextScaled = true
-                                    text.BackgroundColor3 = Color3.new(255, 0, 0)
-                                    text.Parent = Frame
-                                    text.Text = e.ObjectText
-                                    text.Size = UDim2.new(1, 0, 1, 0)
-                                    text.BackgroundTransparency = 1
-                                    text.TextColor3 = Color3.new(1, 1, 1)
-                                else
-
-                                end
-                            end
-        
-                        end
-        
-                    end
-        
-        
-                end
-            end
-            wait()
-            for i,v in pairs (game:GetService('Workspace').Game.Entities.ItemPickup:GetChildren()) do
-                for i,k in pairs(v:GetChildren()) do
-                    for i,l in pairs(k:GetChildren()) do
-                        if l.ClassName == 'BillboardGui' then
-                            l:Remove()
-                        end
-                    end
-                end
-            end
-        
-        end
-end)
-
-about:Button("功能名称",function()
-脚本
 end)
